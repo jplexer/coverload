@@ -1,0 +1,5 @@
+{
+    "name": "Media controls",
+    "description": "Track, artist, album art and playback buttons for apps with an MPRIS player, including Android apps.",
+    "settings": "Settings.qml"
+}

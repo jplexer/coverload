@@ -1,0 +1,11 @@
+{
+    "name": "coverload",
+    "display_name": "Custom app covers",
+    "description": "Replace app switcher covers with custom ones.",
+    "category": "homescreen",
+    "version": "1.0.0",
+    "author": "jplexer",
+    "infos": {
+        "maintainer": "jplexer"
+    }
+}

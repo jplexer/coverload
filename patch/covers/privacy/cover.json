@@ -1,0 +1,5 @@
+{
+    "name": "Privacy",
+    "description": "Hides the app's content in the switcher, showing its icon or a blurred preview instead.",
+    "settings": "Settings.qml"
+}

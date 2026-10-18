@@ -1,0 +1,52 @@
+--- a/usr/share/lipstick-jolla-home-qt5/switcher/SwitcherItem.qml
++++ b/usr/share/lipstick-jolla-home-qt5/switcher/SwitcherItem.qml
+@@ -44,6 +44,10 @@
+     property bool hideCover: wrapper.launching || startupTimer.running || !windowPixmap.hasPixmap
+     property real coverOpacity: hideCover ? 0.0 : (!running ? Theme.opacityHigh : 1.0)
+     readonly property size coverSize: Qt.size(width, height)
++    // coverload: true while a cover override replaces the window pixmap
++    readonly property bool coverloadActive: !wrapper.launching
++                                            && coverloadLoader.item !== null
++                                            && coverloadLoader.item.active === true
+ 
+     editMode: switcherRoot.housekeeping
+     visible: true
+@@ -194,13 +198,14 @@
+                  || !running
+                  || startupTimer.running
+                  || coverOpacityAnimation.running
++                 || wrapper.coverloadActive
+         radius: windowPixmap.radius
+     }
+ 
+     WindowPixmapItem {
+         id: windowPixmap
+ 
+-        opacity: wrapper.coverOpacity
++        opacity: wrapper.coverloadActive ? 0.0 : wrapper.coverOpacity
+         width: rotation % 180 == 0 ? wrapper.width : wrapper.height
+         height: rotation % 180 == 0 ? wrapper.height : wrapper.width
+         windowId: wrapper.coverId ? wrapper.coverId : wrapper.windowId
+@@ -249,7 +254,21 @@
+         scale: parent.width / Theme.coverSizeLarge.width
+         icon: launcherItem ? launcherItem.iconId : ""
+         layer.effect: null
+-        opacity: hideCover ? 1.0 : 0.0
++        opacity: hideCover && !wrapper.coverloadActive ? 1.0 : 0.0
++        Behavior on opacity { FadeAnimation { duration: 500 } }
++    }
++
++    // coverload: loads a replacement cover if one is configured for this app.
++    // If coverload is not installed this Loader just fails and nothing changes.
++    Loader {
++        id: coverloadLoader
++
++        anchors.fill: parent
++        opacity: wrapper.coverloadActive ? (!running ? Theme.opacityHigh : 1.0) : 0.0
++        visible: opacity > 0.0
++        source: "file:///usr/share/patchmanager/patches/coverload/qml/CoverOverride.qml"
++        onLoaded: item.host = wrapper
++
+         Behavior on opacity { FadeAnimation { duration: 500 } }
+     }
+ 

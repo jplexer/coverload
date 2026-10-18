@@ -1,0 +1,5 @@
+{
+    "name": "Notifications",
+    "description": "The app's latest notifications and how many there are. Works with Android apps too.",
+    "settings": "Settings.qml"
+}

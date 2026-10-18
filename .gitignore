@@ -1,0 +1,6 @@
+RPMS/
+.mb2/
+*.rpm
+documentation.list
+upstream/
+tools/
